@@ -12,11 +12,15 @@ export const APP_ROUTES: Routes = [
     component: HomeComponent
   },
   {
+    path: 'hotels',
+    loadChildren: () => import('./hotel/hotel.module').then(m => m.HotelModule)  // 🔹 Carga el módulo de Hotels
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
-]
+];
 
 export const APP_EXTRA_OPTIONS: ExtraOptions = {
   preloadingStrategy: PreloadAllModules
-}
+};

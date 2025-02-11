@@ -6,37 +6,31 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 const headers = new HttpHeaders().set('Accept', 'application/json');
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'  // 🔹 Esto hace que el servicio esté disponible en toda la aplicación
+})
 export class HotelService {
   hotelList: Hotel[] = [];
   api = 'http://www.angular.at/api/hotel';
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
   findById(id: string): Observable<Hotel> {
     const url = `${this.api}/${id}`;
     const params = { id: id };
-    return this.http.get<Hotel>(url, {params, headers});
+    return this.http.get<Hotel>(url, { params, headers });
   }
 
   load(filter: HotelFilter): void {
     this.find(filter).subscribe({
-      next: result => {
-        this.hotelList = result;
-      },
-      error: err => {
-        console.error('error loading', err);
-      }
+      next: result => { this.hotelList = result; },
+      error: err => { console.error('error loading', err); }
     });
   }
 
   find(filter: HotelFilter): Observable<Hotel[]> {
-    const params = {
-      'city': filter.city,
-    };
-
-    return this.http.get<Hotel[]>(this.api, {params, headers});
+    const params = { 'city': filter.city };
+    return this.http.get<Hotel[]>(this.api, { params, headers });
   }
 
   save(entity: Hotel): Observable<Hotel> {
@@ -45,10 +39,10 @@ export class HotelService {
     if (entity.id) {
       url = `${this.api}/${entity.id.toString()}`;
       params = new HttpParams().set('ID', entity.id.toString());
-      return this.http.put<Hotel>(url, entity, {headers, params});
+      return this.http.put<Hotel>(url, entity, { headers, params });
     } else {
       url = `${this.api}`;
-      return this.http.post<Hotel>(url, entity, {headers, params});
+      return this.http.post<Hotel>(url, entity, { headers, params });
     }
   }
 
@@ -58,9 +52,8 @@ export class HotelService {
     if (entity.id) {
       url = `${this.api}/${entity.id.toString()}`;
       params = new HttpParams().set('ID', entity.id.toString());
-      return this.http.delete<Hotel>(url, {headers, params});
+      return this.http.delete<Hotel>(url, { headers, params });
     }
     return EMPTY;
   }
 }
-

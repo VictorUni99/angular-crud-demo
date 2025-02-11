@@ -4,11 +4,11 @@ import { HotelEditComponent } from './hotel-edit/hotel-edit.component';
 
 export const HOTEL_ROUTES: Routes = [
   {
-    path: 'hotels',
-    component: HotelListComponent
+    path: '',
+    component: HotelListComponent  // 🔹 Esto carga la lista de hoteles cuando entras a /hotels
   },
   {
-    path: 'hotels/:id',
-    component: HotelEditComponent
+    path: ':id',
+    component: HotelEditComponent  // 🔹 Permite editar un hotel según su ID
   }
 ];
